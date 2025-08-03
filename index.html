@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>산과 염기의 성질 - 고등학교 1학년 과학 수업</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .slide-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .slide-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .slide-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+        
+        .slide-number {
+            background: #667eea;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .slide-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2C3E50;
+            margin-bottom: 10px;
+        }
+        
+        .slide-description {
+            color: #7f8c8d;
+            line-height: 1.6;
+        }
+        
+        .info-section {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 30px;
+            color: white;
+            text-align: center;
+        }
+        
+        .info-section h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .info-section p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            opacity: 0.9;
+        }
+        
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 50px;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>산과 염기의 성질</h1>
+            <p>고등학교 1학년 과학 수업용 프레젠테이션</p>
+        </div>
+        
+        <div class="slide-grid">
+            <div class="slide-card" onclick="openSlide('slide_title.html')">
+                <div class="slide-number">1</div>
+                <div class="slide-title">표지</div>
+                <div class="slide-description">산과 염기의 성질 프레젠테이션 소개</div>
+            </div>
+            
+            <div class="slide-card" onclick="openSlide('slide_common_properties.html')">
+                <div class="slide-number">2</div>
+                <div class="slide-title">산과 염기의 공통적 성질</div>
+                <div class="slide-description">산과 염기가 공통으로 가지는 특성들</div>
+            </div>
+            
+            <div class="slide-card" onclick="openSlide('slide_definition.html')">
+                <div class="slide-number">3</div>
+                <div class="slide-title">산과 염기의 정의</div>
+                <div class="slide-description">이온 모형을 통한 산과 염기의 정의</div>
+            </div>
+            
+            <div class="slide-card" onclick="openSlide('slide_conductivity.html')">
+                <div class="slide-number">4</div>
+                <div class="slide-title">전기 전도성</div>
+                <div class="slide-description">산과 염기 수용액의 전기 전도성</div>
+            </div>
+            
+            <div class="slide-card" onclick="openSlide('slide_indicators_intro.html')">
+                <div class="slide-number">5</div>
+                <div class="slide-title">지시약 소개</div>
+                <div class="slide-description">산과 염기를 구별하는 지시약</div>
+            </div>
+            
+            <div class="slide-card" onclick="openSlide('slide_indicators_colors.html')">
+                <div class="slide-number">6</div>
+                <div class="slide-title">지시약의 색 변화</div>
+                <div class="slide-description">다양한 지시약의 색 변화 현상</div>
+            </div>
+            
+            <div class="slide-card" onclick="openSlide('slide_neutralization_basic.html')">
+                <div class="slide-number">7</div>
+                <div class="slide-title">중화반응 기본 개념</div>
+                <div class="slide-description">중화반응의 원리와 특징</div>
+            </div>
+            
+            <div class="slide-card" onclick="openSlide('slide_neutralization_graph.html')">
+                <div class="slide-number">8</div>
+                <div class="slide-title">중화반응 그래프와 중화점</div>
+                <div class="slide-description">인터랙티브 중화반응 온도 변화 그래프</div>
+            </div>
+            
+            <div class="slide-card" onclick="openSlide('slide_applications.html')">
+                <div class="slide-number">9</div>
+                <div class="slide-title">중화반응의 응용</div>
+                <div class="slide-description">일상생활에서의 중화반응 활용</div>
+            </div>
+            
+            <div class="slide-card" onclick="openSlide('slide_summary.html')">
+                <div class="slide-number">10</div>
+                <div class="slide-title">요약 및 정리</div>
+                <div class="slide-description">학습 내용 종합 정리</div>
+            </div>
+        </div>
+        
+        <div class="info-section">
+            <h2>프레젠테이션 특징</h2>
+            <p>
+                이 프레젠테이션은 고등학교 1학년 학생들을 대상으로 제작된 과학 수업 자료입니다. 
+                산과 염기의 기본 개념부터 중화반응의 실제 응용까지 체계적으로 학습할 수 있도록 구성되었습니다.
+                특히 8번 슬라이드의 중화반응 그래프는 인터랙티브 기능을 제공하여 
+                학생들이 직접 클릭하며 각 지점의 화학적 상태를 확인할 수 있습니다.
+            </p>
+        </div>
+        
+        <div class="footer">
+            <p>© 2024 Manus AI - 고등학교 과학 교육용 프레젠테이션</p>
+        </div>
+    </div>
+    
+    <script>
+        function openSlide(slideFile) {
+            window.open(slideFile, '_blank');
+        }
+        
+        // 키보드 네비게이션
+        document.addEventListener('keydown', function(event) {
+            const slides = [
+                'slide_title.html',
+                'slide_common_properties.html',
+                'slide_definition.html',
+                'slide_conductivity.html',
+                'slide_indicators_intro.html',
+                'slide_indicators_colors.html',
+                'slide_neutralization_basic.html',
+                'slide_neutralization_graph.html',
+                'slide_applications.html',
+                'slide_summary.html'
+            ];
+            
+            if (event.key >= '1' && event.key <= '9') {
+                const slideIndex = parseInt(event.key) - 1;
+                if (slideIndex < slides.length) {
+                    openSlide(slides[slideIndex]);
+                }
+            } else if (event.key === '0') {
+                openSlide(slides[9]); // 10번째 슬라이드
+            }
+        });
+        
+        // 카드 애니메이션
+        const cards = document.querySelectorAll('.slide-card');
+        cards.forEach((card, index) => {
+            card.style.animationDelay = `${index * 0.1}s`;
+            card.style.animation = 'fadeInUp 0.6s ease forwards';
+        });
+        
+        // CSS 애니메이션 정의
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            
+            .slide-card {
+                opacity: 0;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
+

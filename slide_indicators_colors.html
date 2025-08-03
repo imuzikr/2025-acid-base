@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap");
+      
+      body {
+        padding-bottom: 60px; /* 네비게이션 바 높이만큼 여백 추가 */
+        font-family: "Noto Sans KR", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f5f5f5;
+      }
+      
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background: #FFFFFF;
+        margin: 0 auto;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+      
+      .header {
+        background-color: #2C3E50;
+        color: white;
+        padding: 20px 40px;
+        font-size: 36px;
+        font-weight: 700;
+      }
+      
+      .content {
+        display: flex;
+        flex: 1;
+        padding: 20px;
+      }
+      
+      .left-column {
+        flex: 1;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .right-column {
+        flex: 1;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .section-title {
+        font-size: 24px;
+        font-weight: 600;
+        color: #2C3E50;
+        margin-bottom: 15px;
+        padding-left: 10px;
+        border-left: 4px solid #3498DB;
+      }
+      
+      .explanation {
+        font-size: 18px;
+        color: #34495E;
+        line-height: 1.5;
+        margin-bottom: 20px;
+      }
+      
+      .image-container {
+        width: 100%;
+        max-width: 450px;
+        margin-bottom: 20px;
+      }
+      
+      .image-container img {
+        width: 100%;
+        height: auto;
+        max-height: 300px;
+        object-fit: contain;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+      
+      .footer {
+        padding: 15px 40px;
+        background-color: #f8f9fa;
+        color: #34495E;
+        font-size: 18px;
+        text-align: center;
+        border-top: 1px solid #e9ecef;
+      }
+      
+      .highlight {
+        color: #3498DB;
+        font-weight: 500;
+      }
+      
+      .chart-container {
+        width: 100%;
+        height: 300px;
+        margin-bottom: 20px;
+      }
+    </style>
+    <script>
+      window.onload = function() {
+        // pH 범위에 따른 지시약 색상 변화 차트
+        const ctx = document.getElementById("indicatorChart").getContext("2d");
+        
+        const chart = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: ["메틸 바이올렛", "메틸 오렌지", "브로모크레졸 그린", "브로모티몰 블루", "페놀프탈레인", "알리자린 옐로우"],
+            datasets: [{
+              label: "pH 전이 범위",
+              data: [
+                [0, 2],   // 메틸 바이올렛
+                [3.1, 4.4], // 메틸 오렌지
+                [3.8, 5.4], // 브로모크레졸 그린
+                [6.0, 7.6], // 브로모티몰 블루
+                [8.2, 10.0], // 페놀프탈레인
+                [10.1, 12.0] // 알리자린 옐로우
+              ],
+              backgroundColor: [
+                "rgba(148, 0, 211, 0.7)",
+                "rgba(255, 165, 0, 0.7)",
+                "rgba(0, 128, 0, 0.7)",
+                "rgba(0, 0, 255, 0.7)",
+                "rgba(255, 105, 180, 0.7)",
+                "rgba(255, 215, 0, 0.7)"
+              ],
+              borderColor: [
+                "rgb(148, 0, 211)",
+                "rgb(255, 165, 0)",
+                "rgb(0, 128, 0)",
+                "rgb(0, 0, 255)",
+                "rgb(255, 105, 180)",
+                "rgb(255, 215, 0)"
+              ],
+              borderWidth: 1
+            }]
+          },
+          options: {
+            indexAxis: "y",
+            scales: {
+              x: {
+                min: 0,
+                max: 14,
+                title: {
+                  display: true,
+                  text: "pH",
+                  font: {
+                    size: 14,
+                    family: "Noto Sans KR"
+                  }
+                },
+                ticks: {
+                  stepSize: 1
+                }
+              },
+              y: {
+                title: {
+                  display: true,
+                  text: "지시약",
+                  font: {
+                    size: 14,
+                    family: "Noto Sans KR"
+                  }
+                }
+              }
+            },
+            plugins: {
+              legend: {
+                display: false
+              },
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    const indicator = context.label;
+                    const range = context.raw;
+                    return `pH ${range[0]} ~ ${range[1]}`;
+                  }
+                }
+              }
+            }
+          }
+        });
+      };
+    </script>
+  <link rel="stylesheet" href="navigation.css">
+</head>
+  <body>
+    <div class="slide-container">
+      <div class="header">
+        지시약의 색 변화
+      </div>
+      
+      <div class="content">
+        <div class="left-column">
+          <div class="section-title">pH에 따른 지시약 색 변화</div>
+          <div class="explanation">
+            <p>지시약은 특정 <span class="highlight">pH 범위</span>에서 색이 변하며, 이를 <span class="highlight">전이 범위</span>라고 합니다.</p>
+            <p>각 지시약은 고유한 전이 범위를 가지고 있어 다양한 pH 영역에서 활용됩니다.</p>
+          </div>
+          
+          <div class="chart-container">
+            <canvas id="indicatorChart"></canvas>
+          </div>
+          
+          <div class="explanation">
+            <p>산-염기 적정에서는 종말점을 확인하기 위해 적절한 지시약을 선택하는 것이 중요합니다.</p>
+          </div>
+        </div>
+        
+        <div class="right-column">
+          <div class="image-container">
+            <img src="images/indicator_color_chart.jpg" alt="지시약 색 변화표">
+          </div>
+          
+          <div class="image-container">
+            <img src="images/pH_indicator_color_chart.png" alt="pH 지시약 색상 차트">
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer">
+        지시약의 색 변화는 <span class="highlight">수소 이온 농도</span>에 따른 화학 구조의 변화 때문입니다.
+      </div>
+    </div>
+  <script src="navigation.js"></script>
+</body>
+</html>
+

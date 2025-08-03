@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap");
+      
+      body {
+        padding-bottom: 60px; /* 네비게이션 바 높이만큼 여백 추가 */
+        font-family: "Noto Sans KR", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f5f5f5;
+      }
+      
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background: #FFFFFF;
+        margin: 0 auto;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+      
+      .header {
+        background-color: #2C3E50;
+        color: white;
+        padding: 20px 40px;
+        font-size: 36px;
+        font-weight: 700;
+      }
+      
+      .content {
+        display: flex;
+        flex: 1;
+        padding: 30px;
+      }
+      
+      .left-column {
+        flex: 1;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .right-column {
+        flex: 1;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .property-item {
+        margin-bottom: 25px;
+        padding-left: 20px;
+        border-left: 4px solid #3498DB;
+      }
+      
+      .property-title {
+        font-size: 24px;
+        font-weight: 600;
+        color: #2C3E50;
+        margin-bottom: 10px;
+      }
+      
+      .property-description {
+        font-size: 20px;
+        color: #34495E;
+        line-height: 1.5;
+      }
+      
+      .image-container {
+        width: 100%;
+        max-width: 500px;
+        margin-bottom: 30px;
+      }
+      
+      .image-container img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+      
+      .footer {
+        padding: 15px 40px;
+        background-color: #f8f9fa;
+        color: #34495E;
+        font-size: 18px;
+        text-align: center;
+        border-top: 1px solid #e9ecef;
+      }
+      
+      .highlight {
+        color: #3498DB;
+        font-weight: 500;
+      }
+    </style>
+  <link rel="stylesheet" href="navigation.css">
+</head>
+  <body>
+    <div class="slide-container">
+      <div class="header">
+        산과 염기의 공통적 성질
+      </div>
+      
+      <div class="content">
+        <div class="left-column">
+          <div class="property-item">
+            <div class="property-title">
+              <i class="fas fa-check-circle" style="color: #3498DB;"></i> 수용액에서의 이온화
+            </div>
+            <div class="property-description">
+              산과 염기는 모두 수용액에서 이온화하여 전하를 띤 입자를 생성합니다.
+            </div>
+          </div>
+          
+          <div class="property-item">
+            <div class="property-title">
+              <i class="fas fa-check-circle" style="color: #3498DB;"></i> 전기 전도성
+            </div>
+            <div class="property-description">
+              이온화로 인해 산과 염기의 수용액은 모두 전기를 전도합니다.
+            </div>
+          </div>
+          
+          <div class="property-item">
+            <div class="property-title">
+              <i class="fas fa-check-circle" style="color: #3498DB;"></i> 지시약 반응
+            </div>
+            <div class="property-description">
+              산과 염기는 지시약과 반응하여 특정한 색 변화를 일으킵니다.
+            </div>
+          </div>
+          
+          <div class="property-item">
+            <div class="property-title">
+              <i class="fas fa-check-circle" style="color: #3498DB;"></i> 중화 반응
+            </div>
+            <div class="property-description">
+              산과 염기는 서로 반응하여 물과 염을 생성하는 중화 반응을 일으킵니다.
+            </div>
+          </div>
+        </div>
+        
+        <div class="right-column">
+          <div class="image-container">
+            <img src="images/pH_scale.jpg" alt="pH 스케일">
+          </div>
+          
+          <div class="image-container">
+            <img src="images/acid_base_substances.jpg" alt="산성과 염기성 물질">
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer">
+        산과 염기는 <span class="highlight">상반된 성질</span>을 가지지만 <span class="highlight">공통적인 특성</span>도 많이 가지고 있습니다.
+      </div>
+    </div>
+  <script src="navigation.js"></script>
+</body>
+</html>
+

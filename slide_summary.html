@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+      
+      body {
+        padding-bottom: 60px; /* 네비게이션 바 높이만큼 여백 추가 */
+        font-family: 'Noto Sans KR', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f5f5f5;
+      }
+      
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background: #FFFFFF;
+        margin: 0 auto;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+      
+      .header {
+        background-color: #2C3E50;
+        color: white;
+        padding: 20px 40px;
+        font-size: 36px;
+        font-weight: 700;
+      }
+      
+      .content {
+        display: flex;
+        flex: 1;
+        padding: 30px;
+      }
+      
+      .summary-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .section-title {
+        font-size: 28px;
+        font-weight: 600;
+        color: #2C3E50;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+      
+      .summary-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+        margin-bottom: 30px;
+      }
+      
+      .summary-item {
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        padding: 20px;
+        border-left: 5px solid #3498DB;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      }
+      
+      .summary-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #2C3E50;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+      }
+      
+      .summary-title i {
+        margin-right: 10px;
+        color: #3498DB;
+      }
+      
+      .summary-content {
+        font-size: 16px;
+        color: #34495E;
+        line-height: 1.5;
+      }
+      
+      .key-points {
+        margin-top: 20px;
+        padding: 20px;
+        background-color: rgba(52, 152, 219, 0.1);
+        border-radius: 10px;
+      }
+      
+      .key-points-title {
+        font-size: 22px;
+        font-weight: 600;
+        color: #2C3E50;
+        margin-bottom: 15px;
+        text-align: center;
+      }
+      
+      .key-point-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+      }
+      
+      .key-point {
+        background-color: white;
+        padding: 10px 20px;
+        border-radius: 30px;
+        font-size: 16px;
+        color: #2C3E50;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+      }
+      
+      .key-point i {
+        margin-right: 8px;
+        color: #3498DB;
+      }
+      
+      .footer {
+        padding: 15px 40px;
+        background-color: #f8f9fa;
+        color: #34495E;
+        font-size: 18px;
+        text-align: center;
+        border-top: 1px solid #e9ecef;
+      }
+      
+      .highlight {
+        color: #3498DB;
+        font-weight: 500;
+      }
+    </style>
+  <link rel="stylesheet" href="navigation.css">
+</head>
+  <body>
+    <div class="slide-container">
+      <div class="header">
+        요약 및 정리
+      </div>
+      
+      <div class="content">
+        <div class="summary-container">
+          <div class="section-title">산과 염기의 성질 정리</div>
+          
+          <div class="summary-grid">
+            <div class="summary-item">
+              <div class="summary-title">
+                <i class="fas fa-flask"></i> 산과 염기의 정의
+              </div>
+              <div class="summary-content">
+                아레니우스 정의: 산은 H<sup>+</sup>를 내놓는 물질, 염기는 OH<sup>-</sup>를 내놓는 물질<br>
+                브뢴스테드-로우리 정의: 산은 양성자 공여체, 염기는 양성자 수용체
+              </div>
+            </div>
+            
+            <div class="summary-item">
+              <div class="summary-title">
+                <i class="fas fa-bolt"></i> 전기 전도성
+              </div>
+              <div class="summary-content">
+                산과 염기는 수용액에서 이온화되어 전기 전도성을 가짐<br>
+                이온화 정도에 따라 전도성의 세기가 달라짐
+              </div>
+            </div>
+            
+            <div class="summary-item">
+              <div class="summary-title">
+                <i class="fas fa-eye-dropper"></i> 지시약
+              </div>
+              <div class="summary-content">
+                지시약은 pH에 따라 색이 변하는 약산 또는 약염기<br>
+                각 지시약은 고유한 전이 범위를 가짐 (예: 페놀프탈레인 pH 8.2-10.0)
+              </div>
+            </div>
+            
+            <div class="summary-item">
+              <div class="summary-title">
+                <i class="fas fa-balance-scale"></i> 중화반응
+              </div>
+              <div class="summary-content">
+                산과 염기가 반응하여 물과 염을 생성하는 반응<br>
+                중화점에서 pH는 7이 되고(강산-강염기), 온도는 최대가 됨
+              </div>
+            </div>
+          </div>
+          
+          <div class="key-points">
+            <div class="key-points-title">핵심 포인트</div>
+            <div class="key-point-list">
+              <div class="key-point">
+                <i class="fas fa-check-circle"></i> 이온화 과정
+              </div>
+              <div class="key-point">
+                <i class="fas fa-check-circle"></i> 전기 전도성
+              </div>
+              <div class="key-point">
+                <i class="fas fa-check-circle"></i> pH와 지시약
+              </div>
+              <div class="key-point">
+                <i class="fas fa-check-circle"></i> 중화반응
+              </div>
+              <div class="key-point">
+                <i class="fas fa-check-circle"></i> 중화점의 특성
+              </div>
+              <div class="key-point">
+                <i class="fas fa-check-circle"></i> 일상생활 응용
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer">
+        산과 염기는 <span class="highlight">화학 반응의 기초</span>이며 <span class="highlight">일상생활</span>에서도 중요한 역할을 합니다.
+      </div>
+    </div>
+  <script src="navigation.js"></script>
+</body>
+</html>
+

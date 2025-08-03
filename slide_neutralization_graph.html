@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+      
+      body {
+        padding-bottom: 60px; /* 네비게이션 바 높이만큼 여백 추가 */
+        font-family: 'Noto Sans KR', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f5f5f5;
+      }
+      
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background: #FFFFFF;
+        margin: 0 auto;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+      
+      .header {
+        background-color: #2C3E50;
+        color: white;
+        padding: 20px 40px;
+        font-size: 36px;
+        font-weight: 700;
+      }
+      
+      .content {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        padding: 20px;
+      }
+      
+      .section-title {
+        font-size: 24px;
+        font-weight: 600;
+        color: #2C3E50;
+        margin-bottom: 15px;
+        padding-left: 10px;
+        border-left: 4px solid #3498DB;
+      }
+      
+      .explanation {
+        font-size: 18px;
+        color: #34495E;
+        line-height: 1.5;
+        margin-bottom: 20px;
+      }
+      
+      .chart-container {
+        width: 100%;
+        height: 450px;
+        margin-bottom: 20px;
+        position: relative;
+      }
+      
+      .chart-instructions {
+        text-align: center;
+        margin-top: 10px;
+        margin-bottom: 20px;
+        color: #666;
+        font-size: 16px;
+      }
+      
+      .chart-instructions .highlight {
+        color: #3498DB;
+        font-weight: 600;
+      }
+      
+      .footer {
+        padding: 15px 40px;
+        background-color: #f8f9fa;
+        color: #34495E;
+        font-size: 18px;
+        text-align: center;
+        border-top: 1px solid #e9ecef;
+      }
+      
+      .highlight {
+        color: #3498DB;
+        font-weight: 500;
+      }
+      
+      /* 팝업 스타일 */
+      .neutralization-popup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0.9);
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        width: 450px;
+        max-width: 90%;
+        opacity: 0;
+        transition: all 0.3s ease;
+      }
+      
+      .neutralization-popup.show {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+      
+      .popup-content {
+        padding: 20px;
+      }
+      
+      .popup-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        border-bottom: 1px solid #e0e0e0;
+        padding-bottom: 10px;
+      }
+      
+      .popup-header h3 {
+        font-size: 18px;
+        font-weight: 600;
+        color: #2C3E50;
+        margin: 0;
+      }
+      
+      .popup-close {
+        background: none;
+        border: none;
+        font-size: 24px;
+        color: #7f8c8d;
+        cursor: pointer;
+      }
+      
+      .popup-body {
+        padding-bottom: 60px; /* 네비게이션 바 높이만큼 여백 추가 */
+        font-size: 16px;
+        color: #34495E;
+      }
+      
+      .info-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-bottom: 15px;
+      }
+      
+      .info-item {
+        padding: 5px 0;
+      }
+      
+      .ion-section {
+        margin-top: 15px;
+        border-top: 1px solid #e0e0e0;
+        padding-top: 15px;
+      }
+      
+      .ion-section h4 {
+        font-size: 16px;
+        font-weight: 600;
+        color: #2C3E50;
+        margin-bottom: 10px;
+      }
+      
+      .ion-info {
+        background-color: #f8f9fa;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+      }
+      
+      .ion-concentration {
+        font-weight: 500;
+        color: #e74c3c;
+      }
+      
+      /* 마커 스타일 */
+      .marker {
+        position: absolute;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        cursor: pointer;
+        border: 2px solid #2c3e50;
+        z-index: 10;
+        transition: transform 0.2s ease;
+      }
+      
+      .marker:hover {
+        transform: scale(1.3);
+      }
+      
+      /* 그래프 스타일 */
+      .graph-area {
+        position: relative;
+        width: 100%;
+        height: 400px;
+        background-color: white;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+      }
+      
+      .graph-title {
+        text-align: center;
+        font-size: 20px;
+        font-weight: 600;
+        color: #2C3E50;
+        margin-bottom: 20px;
+      }
+      
+      .x-axis {
+        position: absolute;
+        bottom: 40px;
+        left: 60px;
+        right: 40px;
+        height: 1px;
+        background-color: #2C3E50;
+      }
+      
+      .y-axis {
+        position: absolute;
+        top: 40px;
+        bottom: 40px;
+        left: 60px;
+        width: 1px;
+        background-color: #2C3E50;
+      }
+      
+      .x-label {
+        position: absolute;
+        bottom: 10px;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-size: 16px;
+        color: #2C3E50;
+      }
+      
+      .y-label {
+        position: absolute;
+        top: 50%;
+        left: 10px;
+        transform: rotate(-90deg) translateX(50%);
+        transform-origin: left center;
+        font-size: 16px;
+        color: #2C3E50;
+        white-space: nowrap;
+      }
+      
+      .tick {
+        position: absolute;
+        font-size: 12px;
+        color: #7f8c8d;
+      }
+      
+      .x-tick {
+        bottom: 20px;
+        transform: translateX(-50%);
+      }
+      
+      .y-tick {
+        left: 40px;
+        transform: translateY(50%);
+      }
+      
+      .legend {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 10px;
+        gap: 20px;
+      }
+      
+      .legend-item {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        color: #2C3E50;
+      }
+      
+      .legend-color {
+        width: 16px;
+        height: 16px;
+        margin-right: 6px;
+        border-radius: 3px;
+      }
+      
+      /* SVG 그래프 스타일 */
+      .graph-svg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 5;
+      }
+      
+      .graph-line {
+        fill: none;
+        stroke: #e74c3c;
+        stroke-width: 3;
+        stroke-linejoin: round;
+      }
+    </style>
+  <link rel="stylesheet" href="navigation.css">
+</head>
+  <body>
+    <div class="slide-container">
+      <div class="header">
+        중화반응 그래프와 중화점
+      </div>
+      
+      <div class="content">
+        <div class="section-title">중화반응 온도 변화 곡선</div>
+        <div class="explanation">
+          <p>염산(HCl) 50mL에 수산화나트륨(NaOH) 수용액을 적정할 때의 <span class="highlight">온도 변화</span>를 보여주는 그래프입니다.</p>
+          <p>중화반응은 <span class="highlight">발열반응</span>이므로 중화점에서 온도가 최대가 됩니다.</p>
+        </div>
+        
+        <div class="graph-area">
+          <div class="graph-title">HCl 50mL + NaOH 중화반응 온도 변화</div>
+          
+          <!-- 축 -->
+          <div class="x-axis"></div>
+          <div class="y-axis"></div>
+          
+          <!-- 축 레이블 -->
+          <div class="x-label">NaOH 수용액 부피 (mL)</div>
+          <div class="y-label">온도 (°C)</div>
+          
+          <!-- X축 눈금 -->
+          <div class="tick x-tick" style="left: 60px;">0</div>
+          <div class="tick x-tick" style="left: 180px;">20</div>
+          <div class="tick x-tick" style="left: 300px;">40</div>
+          <div class="tick x-tick" style="left: 420px;">50</div>
+          <div class="tick x-tick" style="left: 540px;">60</div>
+          <div class="tick x-tick" style="left: 660px;">80</div>
+          
+          <!-- Y축 눈금 -->
+          <div class="tick y-tick" style="bottom: 40px;">24</div>
+          <div class="tick y-tick" style="bottom: 120px;">26</div>
+          <div class="tick y-tick" style="bottom: 200px;">28</div>
+          <div class="tick y-tick" style="bottom: 280px;">30</div>
+          
+          <!-- SVG 그래프 선 -->
+          <svg class="graph-svg">
+            <polyline class="graph-line" points="60,360 180,280 300,200 420,120 540,200 660,280" />
+          </svg>
+          
+          <!-- 마커 -->
+          <div id="marker1" class="marker" style="left: 60px; bottom: 40px; background-color: #ff4444;"></div>
+          <div id="marker2" class="marker" style="left: 180px; bottom: 120px; background-color: #ff8844;"></div>
+          <div id="marker3" class="marker" style="left: 300px; bottom: 200px; background-color: #ffaa44;"></div>
+          <div id="marker4" class="marker" style="left: 420px; bottom: 280px; background-color: #44ff44;"></div>
+          <div id="marker5" class="marker" style="left: 540px; bottom: 200px; background-color: #4488ff;"></div>
+          <div id="marker6" class="marker" style="left: 660px; bottom: 120px; background-color: #4444ff;"></div>
+          
+          <!-- 범례 -->
+          <div class="legend">
+            <div class="legend-item">
+              <div class="legend-color" style="background-color: #e74c3c;"></div>
+              <span>온도 (°C)</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color" style="background-color: #44ff44;"></div>
+              <span>중화점</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="chart-instructions">
+          <span class="highlight">주요 포인트를 클릭</span>하면 해당 지점의 액성, 온도, 남아 있는 이온 정보를 확인할 수 있습니다.
+        </div>
+      </div>
+      
+      <div class="footer">
+        중화점에서는 <span class="highlight">온도가 최대</span>가 되며, 이때 산과 염기가 완전히 반응합니다.
+      </div>
+    </div>
+    
+    <script>
+      // 중화반응 데이터 (HCl 50mL + NaOH 적정)
+      const neutralizationData = {
+        // 주요 포인트 정보
+        keyPoints: [
+          {
+            volume: 0,
+            temperature: 25.0,
+            pH: 1.0,
+            description: "적정 시작점",
+            acidity: "강산성",
+            remainingIons: {
+              type: "H⁺",
+              concentration: "높음",
+              description: "과량의 수소 이온이 존재"
+            }
+          },
+          {
+            volume: 20,
+            temperature: 27.0,
+            pH: 1.95,
+            description: "적정 중간점 (40% 중화)",
+            acidity: "산성",
+            remainingIons: {
+              type: "H⁺",
+              concentration: "중간",
+              description: "일부 수소 이온이 중화됨"
+            }
+          },
+          {
+            volume: 40,
+            temperature: 29.0,
+            pH: 3.50,
+            description: "중화점 직전",
+            acidity: "약산성",
+            remainingIons: {
+              type: "H⁺",
+              concentration: "낮음",
+              description: "소량의 수소 이온이 남아있음"
+            }
+          },
+          {
+            volume: 50.0,
+            temperature: 30.0,
+            pH: 7.0,
+            description: "중화점 (당량점)",
+            acidity: "중성",
+            remainingIons: {
+              type: "없음",
+              concentration: "0",
+              description: "H⁺와 OH⁻가 완전히 중화됨"
+            }
+          },
+          {
+            volume: 60,
+            temperature: 29.0,
+            pH: 11.96,
+            description: "중화점 직후",
+            acidity: "염기성",
+            remainingIons: {
+              type: "OH⁻",
+              concentration: "중간",
+              description: "과량의 수산화 이온이 존재"
+            }
+          },
+          {
+            volume: 80,
+            temperature: 27.0,
+            pH: 12.60,
+            description: "과량 염기 상태",
+            acidity: "강염기성",
+            remainingIons: {
+              type: "OH⁻",
+              concentration: "높음",
+              description: "과량의 수산화 이온이 존재"
+            }
+          }
+        ]
+      };
+      
+      // 마커 클릭 이벤트 설정
+      document.getElementById('marker1').addEventListener('click', () => showPopup(neutralizationData.keyPoints[0]));
+      document.getElementById('marker2').addEventListener('click', () => showPopup(neutralizationData.keyPoints[1]));
+      document.getElementById('marker3').addEventListener('click', () => showPopup(neutralizationData.keyPoints[2]));
+      document.getElementById('marker4').addEventListener('click', () => showPopup(neutralizationData.keyPoints[3]));
+      document.getElementById('marker5').addEventListener('click', () => showPopup(neutralizationData.keyPoints[4]));
+      document.getElementById('marker6').addEventListener('click', () => showPopup(neutralizationData.keyPoints[5]));
+
+      // 팝업 창 표시 함수
+      function showPopup(keyPoint) {
+        // 기존 팝업 제거
+        const existingPopup = document.getElementById('neutralization-popup');
+        if (existingPopup) {
+          existingPopup.remove();
+        }
+        
+        // 팝업 생성
+        const popup = document.createElement('div');
+        popup.id = 'neutralization-popup';
+        popup.className = 'neutralization-popup';
+        
+        popup.innerHTML = `
+          <div class="popup-content">
+            <div class="popup-header">
+              <h3>${keyPoint.description}</h3>
+              <button class="popup-close" onclick="closePopup()">&times;</button>
+            </div>
+            <div class="popup-body">
+              <div class="info-grid">
+                <div class="info-item">
+                  <strong>NaOH 부피:</strong> ${keyPoint.volume} mL
+                </div>
+                <div class="info-item">
+                  <strong>온도:</strong> ${keyPoint.temperature} °C
+                </div>
+                <div class="info-item">
+                  <strong>pH:</strong> ${keyPoint.pH}
+                </div>
+                <div class="info-item">
+                  <strong>액성:</strong> ${keyPoint.acidity}
+                </div>
+              </div>
+              <div class="ion-section">
+                <h4>남아 있는 이온 정보</h4>
+                <div class="ion-info">
+                  <div><strong>이온 종류:</strong> ${keyPoint.remainingIons.type}</div>
+                  <div><strong>농도:</strong> <span class="ion-concentration">${keyPoint.remainingIons.concentration}</span></div>
+                  <div><strong>설명:</strong> ${keyPoint.remainingIons.description}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+        
+        document.body.appendChild(popup);
+        
+        // 팝업 표시 애니메이션
+        setTimeout(() => {
+          popup.classList.add('show');
+        }, 10);
+      }
+
+      // 팝업 닫기 함수
+      function closePopup() {
+        const popup = document.getElementById('neutralization-popup');
+        if (popup) {
+          popup.classList.remove('show');
+          setTimeout(() => {
+            popup.remove();
+          }, 300);
+        }
+      }
+
+      // ESC 키로 팝업 닫기
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+          closePopup();
+        }
+      });
+
+      // 팝업 외부 클릭으로 닫기
+      document.addEventListener('click', (event) => {
+        const popup = document.getElementById('neutralization-popup');
+        if (popup && !popup.querySelector('.popup-content').contains(event.target) && 
+            !event.target.classList.contains('marker')) {
+          closePopup();
+        }
+      });
+    </script>
+  <script src="navigation.js"></script>
+</body>
+</html>
+

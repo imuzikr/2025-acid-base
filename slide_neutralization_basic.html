@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap");
+      
+      body {
+        padding-bottom: 60px; /* 네비게이션 바 높이만큼 여백 추가 */
+        font-family: "Noto Sans KR", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f5f5f5;
+      }
+      
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background: #FFFFFF;
+        margin: 0 auto;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+      
+      .header {
+        background-color: #2C3E50;
+        color: white;
+        padding: 20px 40px;
+        font-size: 36px;
+        font-weight: 700;
+      }
+      
+      .content {
+        display: flex;
+        flex: 1;
+        padding: 20px;
+      }
+      
+      .left-column {
+        flex: 1;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .right-column {
+        flex: 1;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .section-title {
+        font-size: 24px;
+        font-weight: 600;
+        color: #2C3E50;
+        margin-bottom: 15px;
+        padding-left: 10px;
+        border-left: 4px solid #3498DB;
+      }
+      
+      .explanation {
+        font-size: 18px;
+        color: #34495E;
+        line-height: 1.5;
+        margin-bottom: 20px;
+      }
+      
+      .reaction-box {
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+      
+      .reaction-equation {
+        font-size: 22px;
+        font-family: "Times New Roman", serif;
+        margin: 10px 0;
+      }
+      
+      .reaction-description {
+        font-size: 16px;
+        color: #34495E;
+        margin-top: 10px;
+      }
+      
+      .feature-list {
+        margin-bottom: 20px;
+      }
+      
+      .feature-item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 12px;
+      }
+      
+      .feature-icon {
+        color: #3498DB;
+        margin-right: 10px;
+        margin-top: 3px;
+      }
+      
+      .feature-text {
+        font-size: 18px;
+        color: #34495E;
+      }
+      
+      .image-container {
+        width: 100%;
+        max-width: 450px;
+        margin-bottom: 20px;
+      }
+      
+      .image-container img {
+        width: 100%;
+        height: auto;
+        max-height: 300px;
+        object-fit: contain;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+      
+      .footer {
+        padding: 15px 40px;
+        background-color: #f8f9fa;
+        color: #34495E;
+        font-size: 18px;
+        text-align: center;
+        border-top: 1px solid #e9ecef;
+      }
+      
+      .highlight {
+        color: #3498DB;
+        font-weight: 500;
+      }
+    </style>
+  <link rel="stylesheet" href="navigation.css">
+</head>
+  <body>
+    <div class="slide-container">
+      <div class="header">
+        중화반응의 기본 개념
+      </div>
+      
+      <div class="content">
+        <div class="left-column">
+          <div class="section-title">중화반응이란?</div>
+          <div class="explanation">
+            <p>중화반응은 <span class="highlight">산과 염기</span>가 반응하여 <span class="highlight">물과 염</span>을 생성하는 반응입니다.</p>
+          </div>
+          
+          <div class="reaction-box">
+            <div class="reaction-equation">
+              산 + 염기 → 염 + 물
+            </div>
+            <div class="reaction-equation">
+              HCl + NaOH → NaCl + H<sub>2</sub>O
+            </div>
+            <div class="reaction-description">
+              수소 이온(H<sup>+</sup>)과 수산화 이온(OH<sup>-</sup>)이 만나 물(H<sub>2</sub>O)을 생성
+            </div>
+          </div>
+          
+          <div class="section-title">중화반응의 특징</div>
+          <div class="feature-list">
+            <div class="feature-item">
+              <div class="feature-icon"><i class="fas fa-thermometer-half"></i></div>
+              <div class="feature-text">발열 반응: 중화반응은 열을 방출하는 발열 반응입니다.</div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon"><i class="fas fa-balance-scale"></i></div>
+              <div class="feature-text">당량점: 산과 염기가 완전히 반응하는 지점을 당량점이라고 합니다.</div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon"><i class="fas fa-tint"></i></div>
+              <div class="feature-text">중화점에서 pH는 7이 되어 중성을 나타냅니다(강산-강염기 반응의 경우).</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="right-column">
+          <div class="image-container">
+            <img src="images/neutralization_diagram.jpg" alt="중화반응 모식도">
+          </div>
+          
+          <div class="image-container">
+            <img src="images/acid_base_neutralization_animation.gif" alt="산-염기 중화반응">
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer">
+        중화반응은 <span class="highlight">H<sup>+</sup>와 OH<sup>-</sup>의 결합</span>이 핵심이며, 이 과정에서 열이 발생합니다.
+      </div>
+    </div>
+  <script src="navigation.js"></script>
+</body>
+</html>
+

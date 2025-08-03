@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1"></script>
+    <link rel="stylesheet" href="popup_styles.css">
+    <script src="neutralization_data_updated.js"></script>
+    <script src="interactive_chart_updated.js"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+      
+      body {
+        font-family: 'Noto Sans KR', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f5f5f5;
+      }
+      
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background: #FFFFFF;
+        margin: 0 auto;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+      
+      .header {
+        background-color: #2C3E50;
+        color: white;
+        padding: 20px 40px;
+        font-size: 36px;
+        font-weight: 700;
+      }
+      
+      .content {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        padding: 20px;
+      }
+      
+      .section-title {
+        font-size: 24px;
+        font-weight: 600;
+        color: #2C3E50;
+        margin-bottom: 15px;
+        padding-left: 10px;
+        border-left: 4px solid #3498DB;
+      }
+      
+      .explanation {
+        font-size: 18px;
+        color: #34495E;
+        line-height: 1.5;
+        margin-bottom: 20px;
+      }
+      
+      .chart-container {
+        width: 100%;
+        height: 400px;
+        margin-bottom: 20px;
+      }
+      
+      .chart-instructions {
+        text-align: center;
+        margin-top: 10px;
+        margin-bottom: 20px;
+        color: #666;
+        font-size: 16px;
+      }
+      
+      .chart-instructions .highlight {
+        color: #3498DB;
+        font-weight: 600;
+      }
+      
+      .chart-tabs {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+      }
+      
+      .chart-tab {
+        padding: 10px 20px;
+        margin: 0 10px;
+        background-color: #f8f9fa;
+        border: 1px solid #e0e0e0;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      
+      .chart-tab.active {
+        background-color: #3498DB;
+        color: white;
+        border-color: #3498DB;
+      }
+      
+      .footer {
+        padding: 15px 40px;
+        background-color: #f8f9fa;
+        color: #34495E;
+        font-size: 18px;
+        text-align: center;
+        border-top: 1px solid #e9ecef;
+      }
+      
+      .highlight {
+        color: #3498DB;
+        font-weight: 500;
+      }
+    </style>
+    <script>
+      window.onload = function() {
+        // 초기 pH 차트 생성
+        const phChart = createInteractiveNeutralizationChart('phChart', 'ph');
+        
+        // 탭 전환 기능
+        document.getElementById('phTab').addEventListener('click', function() {
+          document.getElementById('phTab').classList.add('active');
+          document.getElementById('tempTab').classList.remove('active');
+          document.getElementById('phChartContainer').style.display = 'block';
+          document.getElementById('tempChartContainer').style.display = 'none';
+        });
+        
+        document.getElementById('tempTab').addEventListener('click', function() {
+          document.getElementById('tempTab').classList.add('active');
+          document.getElementById('phTab').classList.remove('active');
+          document.getElementById('phChartContainer').style.display = 'none';
+          document.getElementById('tempChartContainer').style.display = 'block';
+          
+          // 온도 차트가 처음 표시될 때만 생성
+          if (!window.tempChart) {
+            window.tempChart = createInteractiveNeutralizationChart('tempChart', 'temperature');
+          }
+        });
+      };
+    </script>
+  </head>
+  <body>
+    <div class="slide-container">
+      <div class="header">
+        중화반응 그래프와 중화점
+      </div>
+      
+      <div class="content">
+        <div class="section-title">중화적정 곡선</div>
+        <div class="explanation">
+          <p>염산(HCl) 50mL와 수산화나트륨(NaOH) 50mL의 중화반응에서 <span class="highlight">pH 변화</span>와 <span class="highlight">온도 변화</span>를 보여주는 그래프입니다.</p>
+          <p>그래프의 변곡점은 <span class="highlight">중화점(당량점)</span>을 나타내며, 이 지점에서 산과 염기가 완전히 반응합니다.</p>
+        </div>
+        
+        <div class="chart-tabs">
+          <div id="phTab" class="chart-tab active">pH 변화</div>
+          <div id="tempTab" class="chart-tab">온도 변화</div>
+        </div>
+        
+        <div id="phChartContainer" class="chart-container">
+          <canvas id="phChart"></canvas>
+        </div>
+        
+        <div id="tempChartContainer" class="chart-container" style="display: none;">
+          <canvas id="tempChart"></canvas>
+        </div>
+        
+        <div class="chart-instructions">
+          <span class="highlight">주요 포인트를 클릭</span>하면 해당 지점의 상세 정보를 확인할 수 있습니다.
+        </div>
+      </div>
+      
+      <div class="footer">
+        중화점에서는 <span class="highlight">pH가 급격히 변화</span>하고 <span class="highlight">온도가 최대</span>가 됩니다.
+      </div>
+    </div>
+  </body>
+</html>
+

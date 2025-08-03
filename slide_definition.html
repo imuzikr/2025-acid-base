@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap");
+      
+      body {
+        padding-bottom: 60px; /* 네비게이션 바 높이만큼 여백 추가 */
+        font-family: "Noto Sans KR", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f5f5f5;
+      }
+      
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background: #FFFFFF;
+        margin: 0 auto;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+      
+      .header {
+        background-color: #2C3E50;
+        color: white;
+        padding: 20px 40px;
+        font-size: 36px;
+        font-weight: 700;
+      }
+      
+      .content {
+        display: flex;
+        flex: 1;
+        padding: 20px;
+      }
+      
+      .left-column {
+        flex: 1;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .right-column {
+        flex: 1;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .definition-box {
+        background-color: #f8f9fa;
+        border-left: 5px solid #3498DB;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 0 8px 8px 0;
+      }
+      
+      .definition-title {
+        font-size: 24px;
+        font-weight: 600;
+        color: #2C3E50;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+      }
+      
+      .definition-title i {
+        margin-right: 10px;
+        color: #3498DB;
+      }
+      
+      .definition-content {
+        font-size: 18px;
+        color: #34495E;
+        line-height: 1.5;
+      }
+      
+      .definition-example {
+        margin-top: 10px;
+        padding: 8px;
+        background-color: rgba(52, 152, 219, 0.1);
+        border-radius: 6px;
+        font-size: 16px;
+      }
+      
+      .image-container {
+        width: 100%;
+        max-width: 450px;
+        margin-bottom: 20px;
+      }
+      
+      .image-container img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+      
+      .footer {
+        padding: 15px 40px;
+        background-color: #f8f9fa;
+        color: #34495E;
+        font-size: 18px;
+        text-align: center;
+        border-top: 1px solid #e9ecef;
+      }
+      
+      .highlight {
+        color: #3498DB;
+        font-weight: 500;
+      }
+      
+      .equation {
+        font-family: "Times New Roman", serif;
+        font-size: 18px;
+        margin: 8px 0;
+        text-align: center;
+      }
+    </style>
+  <link rel="stylesheet" href="navigation.css">
+</head>
+  <body>
+    <div class="slide-container">
+      <div class="header">
+        산과 염기의 정의
+      </div>
+      
+      <div class="content">
+        <div class="left-column">
+          <div class="definition-box">
+            <div class="definition-title">
+              <i class="fas fa-flask"></i> 아레니우스 정의
+            </div>
+            <div class="definition-content">
+              <p><strong>산:</strong> 수용액에서 수소 이온(H<sup>+</sup>)을 내놓는 물질</p>
+              <p><strong>염기:</strong> 수용액에서 수산화 이온(OH<sup>-</sup>)을 내놓는 물질</p>
+              <div class="definition-example">
+                <div class="equation">HCl → H<sup>+</sup> + Cl<sup>-</sup></div>
+                <div class="equation">NaOH → Na<sup>+</sup> + OH<sup>-</sup></div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="definition-box">
+            <div class="definition-title">
+              <i class="fas fa-vial"></i> 브뢴스테드-로우리 정의
+            </div>
+            <div class="definition-content">
+              <p><strong>산:</strong> 양성자(H<sup>+</sup>)를 주는 물질 (양성자 공여체)</p>
+              <p><strong>염기:</strong> 양성자(H<sup>+</sup>)를 받는 물질 (양성자 수용체)</p>
+              <div class="definition-example">
+                <div class="equation">HCl + H<sub>2</sub>O → H<sub>3</sub>O<sup>+</sup> + Cl<sup>-</sup></div>
+                <div class="equation">NH<sub>3</sub> + H<sub>2</sub>O → NH<sub>4</sub><sup>+</sup> + OH<sup>-</sup></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="right-column">
+          <div class="image-container">
+            <img src="images/acid_base_ionization_model.png" alt="산과 염기의 이온화 모형">
+          </div>
+          
+          <div class="image-container">
+            <img src="images/arrhenius_model.png" alt="아레니우스 산-염기 모형">
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer">
+        산과 염기는 <span class="highlight">이온화 과정</span>을 통해 수용액에서 특정 이온을 생성하는 물질입니다.
+      </div>
+    </div>
+  <script src="navigation.js"></script>
+</body>
+</html>
+
